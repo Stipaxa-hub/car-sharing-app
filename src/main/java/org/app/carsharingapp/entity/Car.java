@@ -9,13 +9,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.math.BigDecimal;
 import lombok.Data;
-import org.hibernate.annotations.SQLDelete;
-import org.hibernate.annotations.Where;
+import org.hibernate.annotations.SoftDelete;
 
 @Entity(name = "cars")
 @Data
-@SQLDelete(sql = "UPDATE addresses SET is_deleted = true WHERE id=?")
-@Where(clause = "is_deleted=false")
+@SoftDelete
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,14 +23,12 @@ public class Car {
     @Column(nullable = false)
     private String brand;
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(columnDefinition = "varchar", nullable = false)
     private Type type;
     @Column(nullable = false)
     private Integer inventory;
     @Column(name = "daily_fee", nullable = false)
     private BigDecimal dailyFee;
-    @Column(name = "is_deleted", nullable = false)
-    private boolean isDeleted = false;
 
     public enum Type {
         SEDAN,
