@@ -1,0 +1,16 @@
+package org.app.carsharingapp.validator.impl;
+
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
+import java.util.regex.Pattern;
+import org.app.carsharingapp.validator.Email;
+
+public class EmailValidator implements ConstraintValidator<Email, String> {
+    private static final String REGEX_OF_EMAIL = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)"
+            + "*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+
+    @Override
+    public boolean isValid(String email, ConstraintValidatorContext context) {
+        return email != null && Pattern.compile(REGEX_OF_EMAIL).matcher(email).matches();
+    }
+}
