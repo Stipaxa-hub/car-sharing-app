@@ -1,7 +1,6 @@
 package org.app.carsharingapp.dto.user;
 
-public record UserLoginResponseDto (
+public record UserLoginResponseDto(
         String token
-)
-{
+){
 }

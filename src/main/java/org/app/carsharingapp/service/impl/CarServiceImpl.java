@@ -30,7 +30,7 @@ public class CarServiceImpl implements CarService {
         return carMapper.toDto(
                 carRepository.findById(id)
                         .orElseThrow(() -> new EntityNotFoundException(
-                                String.format("Can't find car with id: %d", id)
+                                "Can't find car with id:" + id
                         ))
         );
     }
@@ -45,9 +45,8 @@ public class CarServiceImpl implements CarService {
     @Override
     public CarDto updateCar(Long id, CarDto carDto) {
         Car car = carRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        String.format("Can't find car with id: %d", id)
-                ));
+                .orElseThrow(() -> new EntityNotFoundException("Can't find car with id:" + id)
+                );
         carMapper.updateCarFromDto(carDto, car);
         carRepository.save(car);
         return carMapper.toDto(car);
@@ -56,7 +55,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public void deleteCar(Long id) {
         if (carRepository.findById(id).isEmpty()) {
-            throw new EntityNotFoundException(String.format("Can't find car with id: %d", id));
+            throw new EntityNotFoundException("Can't find car with id:" + id);
         }
         carRepository.deleteById(id);
     }

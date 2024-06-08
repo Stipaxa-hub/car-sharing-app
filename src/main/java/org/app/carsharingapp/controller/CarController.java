@@ -9,6 +9,7 @@ import org.app.carsharingapp.dto.car.CarDto;
 import org.app.carsharingapp.service.CarService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,9 +27,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class CarController {
     private final CarService carService;
 
+    @PreAuthorize("hasRole('MANAGER')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Create a new car", description = "Enables admins to create new cars")
+    @Operation(summary = "Create a new car", description = "Enables manager to create new cars")
     public CarDto createCar(@RequestBody @Valid CarDto carDto) {
         return carService.createCar(carDto);
     }
@@ -45,15 +47,17 @@ public class CarController {
         return carService.getAllCars(pageable);
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @PutMapping("/{id}")
-    @Operation(summary = "Update car by id", description = "Allows admins to update cars info")
+    @Operation(summary = "Update car by id", description = "Allows managers to update cars info")
     public CarDto updateCar(@PathVariable Long id, @RequestBody @Valid CarDto carDto) {
         return carService.updateCar(id, carDto);
     }
 
+    @PreAuthorize("hasRole('MANAGER')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    @Operation(summary = "Delete car by id", description = "Allows admins to delete cars")
+    @Operation(summary = "Delete car by id", description = "Allows managers to delete cars")
     public void deleteCar(@PathVariable Long id) {
         carService.deleteCar(id);
     }
