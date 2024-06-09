@@ -43,11 +43,11 @@ public class User implements UserDetails {
     )
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private Set<Role> role;
+    private Set<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return roles;
     }
 
     @Override

@@ -11,12 +11,12 @@ databaseChangeLog:
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fk_ur_user_id
+                    foreignKeyName: fk_user
                     references: users(id)
               - column:
                   name: role_id
                   type: bigint
                   constraints:
                     nullable: false
-                    foreignKeyName: fK_ur_role_id
+                    foreignKeyName: fK_role
                     references: roles(id)

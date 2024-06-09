@@ -11,6 +11,7 @@ import org.app.carsharingapp.repository.CarRepository;
 import org.app.carsharingapp.service.CarService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +19,7 @@ public class CarServiceImpl implements CarService {
     private final CarRepository carRepository;
     private final CarMapper carMapper;
 
+    @Transactional
     @Override
     public CarDto createCar(CarDto carDto) {
         Car savedCar = carRepository.save(carMapper.toModel(carDto));

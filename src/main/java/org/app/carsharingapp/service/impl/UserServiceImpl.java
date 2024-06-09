@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(requestDto.getPassword()));
         Role defaultRole = roleRepository.getRoleByRoleName(Role.RoleName.CUSTOMER)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find the role: CUSTOMER"));
-        user.setRole(Set.of(defaultRole));
+        user.setRoles(Set.of(defaultRole));
         User savedUser = userRepository.save(user);
         return userMapper.toDto(savedUser);
     }
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDto updateUserRole(Long userId, UserUpdateRoleRequestDto requestDto) {
         User user = getUserById(userId);
-        user.setRole(Set.of(roleRepository.getRoleByRoleName(requestDto.getRole())
+        user.setRoles(Set.of(roleRepository.getRoleByRoleName(requestDto.getRole())
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Can't find the role: " + requestDto.getRole().name()
                 ))));
