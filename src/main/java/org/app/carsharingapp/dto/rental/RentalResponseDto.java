@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class RentalResponseDto {
-    private Long id;
+    private Long rentalId;
     private LocalDate rentalDate;
     private LocalDate returnDate;
     private Long carId;
