@@ -9,4 +9,6 @@ databaseChangeLog:
       file: db/changelog/changes/04-insert-roles-into-roles-table.yaml
   - include:
       file: db/changelog/changes/05-create-users-roles-table.yaml
+  - include:
+      file: db/changelog/changes/06-add-cars-into-cars-table.yaml
 
