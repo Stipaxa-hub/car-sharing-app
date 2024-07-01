@@ -11,7 +11,7 @@ public interface RentalService {
 
     List<RentalResponseDto> getCustomerRentals(Long userId, Pageable pageable);
 
-    List<RentalResponseDto> getSpecificRentals(Long carId, Pageable pageable);
+    List<RentalResponseDto> getSpecificRental(Long rentalId, Pageable pageable);
 
     RentalResponseDto setActualReturnDate(Long userId,
                                           SetActualRentalReturnDateRequestDto requestDto);

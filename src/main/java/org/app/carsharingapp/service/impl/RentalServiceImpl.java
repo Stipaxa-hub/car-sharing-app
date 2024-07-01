@@ -2,6 +2,7 @@ package org.app.carsharingapp.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.app.carsharingapp.dto.rental.RentalRequestDto;
 import org.app.carsharingapp.dto.rental.RentalResponseDto;
@@ -53,18 +54,39 @@ public class RentalServiceImpl implements RentalService {
 
     @Override
     public List<RentalResponseDto> getCustomerRentals(Long userId, Pageable pageable) {
-        return null;
+        List<Rental> rentals = rentalRepository.findAllByUserId(userId);
+        return rentals.stream()
+                .map(rentalMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<RentalResponseDto> getSpecificRentals(Long carId, Pageable pageable) {
-        return null;
+    public List<RentalResponseDto> getSpecificRental(Long rentalId, Pageable pageable) {
+        Rental rental = rentalRepository.findById(rentalId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Can't find rental with id: " + rentalId)
+                );
+        return List.of(rentalMapper.toDto(rental));
     }
 
     @Override
     public RentalResponseDto setActualReturnDate(Long userId,
                                                  SetActualRentalReturnDateRequestDto requestDto) {
-        return null;
+        List<Rental> rentals = rentalRepository.findAllByUserIdAndCarId(userId, requestDto.carId());
+
+        Rental rental = rentals.stream()
+                .filter(r -> r.getActualReturnDate() == null)
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException("Can't set actual return date!"));
+
+        rental.setActualReturnDate(requestDto.actualReturnDate());
+
+        Car car = rental.getCar();
+        car.setInventory(car.getInventory() + 1);
+
+        Rental rentalWithActualReturnDate = rentalRepository.save(rental);
+
+        return rentalMapper.toDto(rentalWithActualReturnDate);
     }
 
     private Car getCarById(Long carId) {
