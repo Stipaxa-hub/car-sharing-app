@@ -1,0 +1,92 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-cars-into-cars-table
+      author: Stepan
+      changes:
+        - insert:
+            tableName: cars
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: model
+                  value: "Model S"
+              - column:
+                  name: brand
+                  value: "Tesla"
+              - column:
+                  name: type
+                  value: "SEDAN"
+              - column:
+                  name: inventory
+                  value: 5
+              - column:
+                  name: daily_fee
+                  value: 99.99
+
+        - insert:
+            tableName: cars
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: model
+                  value: "Q7"
+              - column:
+                  name: brand
+                  value: "Audi"
+              - column:
+                  name: type
+                  value: "SUV"
+              - column:
+                  name: inventory
+                  value: 3
+              - column:
+                  name: daily_fee
+                  value: 149.99
+
+        - insert:
+            tableName: cars
+            columns:
+              - column:
+                  name: id
+                  value: 3
+              - column:
+                  name: model
+                  value: "Civic"
+              - column:
+                  name: brand
+                  value: "Honda"
+              - column:
+                  name: type
+                  value: "HATCHBACK"
+              - column:
+                  name: inventory
+                  value: 7
+              - column:
+                  name: daily_fee
+                  value: 79.99
+
+        - insert:
+            tableName: cars
+            columns:
+              - column:
+                  name: id
+                  value: 4
+              - column:
+                  name: model
+                  value: "Octavia"
+              - column:
+                  name: brand
+                  value: "Skoda"
+              - column:
+                  name: type
+                  value: "UNIVERSAL"
+              - column:
+                  name: inventory
+                  value: 2
+              - column:
+                  name: daily_fee
+                  value: 89.99

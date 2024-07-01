@@ -15,6 +15,7 @@ import org.app.carsharingapp.repository.UserRepository;
 import org.app.carsharingapp.service.UserService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -53,6 +54,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public UserResponseDto getProfileInfo(Long userId) {
         User user = getUserById(userId);
         return userMapper.toDto(user);
