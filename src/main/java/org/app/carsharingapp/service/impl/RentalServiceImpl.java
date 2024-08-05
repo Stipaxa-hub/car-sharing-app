@@ -15,6 +15,7 @@ import org.app.carsharingapp.mapper.RentalMapper;
 import org.app.carsharingapp.repository.CarRepository;
 import org.app.carsharingapp.repository.RentalRepository;
 import org.app.carsharingapp.repository.UserRepository;
+import org.app.carsharingapp.service.NotificationService;
 import org.app.carsharingapp.service.RentalService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ public class RentalServiceImpl implements RentalService {
     private final RentalMapper rentalMapper;
     private final UserRepository userRepository;
     private final CarRepository carRepository;
+    private final NotificationService notificationService;
 
     @Transactional
     @Override
@@ -48,6 +50,8 @@ public class RentalServiceImpl implements RentalService {
         Rental savedRental = rentalRepository.save(rental);
         RentalResponseDto responseDto = rentalMapper.toDto(savedRental);
         responseDto.setRentalId(savedRental.getId());
+
+        notificationService.rentalCreatedMessage(responseDto);
 
         return responseDto;
     }
