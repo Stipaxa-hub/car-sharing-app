@@ -20,6 +20,7 @@
         <liquibase.version>4.22.0</liquibase.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <jjwt.version>0.11.5</jjwt.version>
+        <telegram.bots.version>6.7.0</telegram.bots.version>
     </properties>
     <dependencies>
         <dependency>
@@ -101,6 +102,11 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
             <version>${jjwt.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.telegram</groupId>
+            <artifactId>telegrambots</artifactId>
+            <version>${telegram.bots.version}</version>
         </dependency>
     </dependencies>
 
