@@ -24,7 +24,7 @@ public class NotificationBot extends TelegramLongPollingBot {
     private static final String START_COMMAND = "/start";
     private static final String AUTH_COMMAND = "/auth";
     private static final String CANCEL_COMMAND = "/cancel";
-    private static final String START_MESSAGE = "Hello, i'm car pooling bot use /auth command "
+    private static final String START_MESSAGE = "Hello, I'm car pooling bot use /auth command "
             + "if you haven't done it yet to receive notification "
             + "or /cancel to stop receive messages";
     private static final String CANT_SEND_MESSAGE = "Can't send message to user chatId: %d";

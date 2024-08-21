@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.app.carsharingapp.bot.NotificationBot;
 import org.app.carsharingapp.dto.rental.RentalResponseDto;
 import org.app.carsharingapp.entity.User;
+import org.app.carsharingapp.repository.CarRepository;
 import org.app.carsharingapp.repository.UserRepository;
 import org.app.carsharingapp.service.NotificationService;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ public class NotificationServiceImpl
             DateTimeFormatter.ofPattern(DATE_PATTERN);
     private final NotificationBot bot;
     private final UserRepository userRepository;
+    private final CarRepository carRepository;
 
     @Override
     public Boolean rentalCreatedMessage(RentalResponseDto rentalResponseDto) {
@@ -27,10 +29,10 @@ public class NotificationServiceImpl
         String formattedDateTime = localDateTimeNow.format(DATE_TIME_FORMATTER);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(formattedDateTime)
-                .append(" new rental was created with car id: ")
-                .append(rentalResponseDto.getCarId())
-                .append(" User ID: ")
-                .append(rentalResponseDto.getUserId())
+                .append(" new rental was created with car : ")
+                .append(carRepository.findById(rentalResponseDto.getCarId()))
+                .append(" User: ")
+                .append(userRepository.findById(rentalResponseDto.getUserId()))
                 .append("Rental Date: ")
                 .append(rentalResponseDto.getRentalDate())
                 .append("Return date: ")
