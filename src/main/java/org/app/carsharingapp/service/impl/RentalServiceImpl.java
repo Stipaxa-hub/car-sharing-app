@@ -1,6 +1,7 @@
 package org.app.carsharingapp.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.app.carsharingapp.entity.Car;
 import org.app.carsharingapp.entity.Rental;
 import org.app.carsharingapp.entity.User;
 import org.app.carsharingapp.exception.AvailabilityCarsException;
+import org.app.carsharingapp.exception.RentalException;
 import org.app.carsharingapp.mapper.RentalMapper;
 import org.app.carsharingapp.repository.CarRepository;
 import org.app.carsharingapp.repository.RentalRepository;
@@ -18,12 +20,15 @@ import org.app.carsharingapp.repository.UserRepository;
 import org.app.carsharingapp.service.NotificationService;
 import org.app.carsharingapp.service.RentalService;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class RentalServiceImpl implements RentalService {
+    private static final String EXPIRED_MESSAGE =
+            "Rental with car: %s was expired. You need to return car today!";
     private final RentalRepository rentalRepository;
     private final RentalMapper rentalMapper;
     private final UserRepository userRepository;
@@ -33,6 +38,10 @@ public class RentalServiceImpl implements RentalService {
     @Transactional
     @Override
     public RentalResponseDto addRental(Long userId, RentalRequestDto requestDto) {
+        if (requestDto.returnDate().isBefore(requestDto.rentalDate())) {
+            throw new RentalException("Rental Exception");
+        }
+
         Rental rental = rentalMapper.toModel(requestDto);
 
         User user = getUserById(userId);
@@ -73,6 +82,7 @@ public class RentalServiceImpl implements RentalService {
         return List.of(rentalMapper.toDto(rental));
     }
 
+    @Transactional
     @Override
     public RentalResponseDto setActualReturnDate(Long userId,
                                                  SetActualRentalReturnDateRequestDto requestDto) {
@@ -83,14 +93,34 @@ public class RentalServiceImpl implements RentalService {
                 .findFirst()
                 .orElseThrow(() -> new EntityNotFoundException("Can't set actual return date!"));
 
+        if (requestDto.actualReturnDate().isBefore(rental.getRentalDate())) {
+            throw new RentalException("Can't return car before rental date");
+        }
+
         rental.setActualReturnDate(requestDto.actualReturnDate());
 
         Car car = rental.getCar();
         car.setInventory(car.getInventory() + 1);
 
         Rental rentalWithActualReturnDate = rentalRepository.save(rental);
+        RentalResponseDto responseDto = rentalMapper.toDto(rentalWithActualReturnDate);
 
-        return rentalMapper.toDto(rentalWithActualReturnDate);
+        notificationService.rentalReturnedMessage(responseDto);
+
+        return responseDto;
+    }
+
+    @Scheduled(cron = "@daily")
+    public void checkRentalDate() {
+        LocalDate nowDate = LocalDate.now();
+        List<Rental> rentals = rentalRepository.findAllByActualReturnDateIsNull();
+        for (Rental rental : rentals) {
+            if (rental.getReturnDate().isEqual(nowDate)) {
+                notificationService.rentalExpiredMessage(rental.getUser(),
+                        String.format(EXPIRED_MESSAGE, rental.getCar().getBrand()
+                                + " " + rental.getCar().getModel()));
+            }
+        }
     }
 
     private Car getCarById(Long carId) {

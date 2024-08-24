@@ -76,7 +76,7 @@ public class NotificationBot extends TelegramLongPollingBot {
         }
     }
 
-    public void sendLogMessage(User user, String text) {
+    public void sendMessage(User user, String text) {
         Optional<Long> chatIdOpt = Optional.ofNullable(user.getChatId());
         if (chatIdOpt.isPresent()) {
             Long chatId = chatIdOpt.get();
