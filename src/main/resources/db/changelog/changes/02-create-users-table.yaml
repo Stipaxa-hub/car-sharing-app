@@ -35,6 +35,9 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: chat_id
+                  type: bigint
+              - column:
                   name: deleted
                   type: boolean
                   defaultValueBoolean: false

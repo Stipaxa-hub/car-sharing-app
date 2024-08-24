@@ -38,6 +38,7 @@ public class UserServiceImpl implements UserService {
         Role defaultRole = roleRepository.getRoleByRoleName(Role.RoleName.CUSTOMER)
                 .orElseThrow(() -> new EntityNotFoundException("Can't find the role: CUSTOMER"));
         user.setRoles(Set.of(defaultRole));
+        user.setChatId(-1L);
         User savedUser = userRepository.save(user);
         return userMapper.toDto(savedUser);
     }

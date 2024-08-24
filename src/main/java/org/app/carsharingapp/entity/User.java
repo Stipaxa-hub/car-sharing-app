@@ -44,6 +44,8 @@ public class User implements UserDetails {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private Set<Role> roles;
+    @Column(name = "chat_id", nullable = false)
+    private Long chatId;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
