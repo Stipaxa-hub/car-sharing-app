@@ -1,6 +1,9 @@
 package org.app.carsharingapp.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -35,4 +38,14 @@ public class Rental {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private User user;
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar", nullable = false)
+    private Status status;
+
+    public enum Status {
+        PENDING,
+        CONFIRMED,
+        REJECTED,
+        EXPIRED
+    }
 }

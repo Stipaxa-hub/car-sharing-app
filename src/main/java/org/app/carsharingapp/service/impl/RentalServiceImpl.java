@@ -55,6 +55,7 @@ public class RentalServiceImpl implements RentalService {
         }
         car.setInventory(car.getInventory() - 1);
         rental.setCar(car);
+        rental.setStatus(Rental.Status.PENDING);
 
         Rental savedRental = rentalRepository.save(rental);
         RentalResponseDto responseDto = rentalMapper.toDto(savedRental);
@@ -98,6 +99,7 @@ public class RentalServiceImpl implements RentalService {
         }
 
         rental.setActualReturnDate(requestDto.actualReturnDate());
+        rental.setStatus(Rental.Status.CONFIRMED);
 
         Car car = rental.getCar();
         car.setInventory(car.getInventory() + 1);
@@ -116,6 +118,8 @@ public class RentalServiceImpl implements RentalService {
         List<Rental> rentals = rentalRepository.findAllByActualReturnDateIsNull();
         for (Rental rental : rentals) {
             if (rental.getReturnDate().isEqual(nowDate)) {
+                rental.setStatus(Rental.Status.EXPIRED);
+                rentalRepository.save(rental);
                 notificationService.rentalExpiredMessage(rental.getUser(),
                         String.format(EXPIRED_MESSAGE, rental.getCar().getBrand()
                                 + " " + rental.getCar().getModel()));

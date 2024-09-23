@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.app.carsharingapp.bot.NotificationBot;
 import org.app.carsharingapp.dto.rental.RentalResponseDto;
 import org.app.carsharingapp.entity.Car;
+import org.app.carsharingapp.entity.Payment;
 import org.app.carsharingapp.entity.Rental;
 import org.app.carsharingapp.entity.User;
 import org.app.carsharingapp.repository.CarRepository;
@@ -80,10 +81,27 @@ public class NotificationServiceImpl
         String formattedDateTime = localDateTimeNow.format(DATE_TIME_FORMATTER);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(formattedDateTime)
-                .append(formattedDateTime)
                 .append(" \n")
                 .append(text);
         bot.sendMessage(user, stringBuilder.toString());
+        return true;
+    }
+
+    @Override
+    public Boolean paymentMessage(Payment payment) {
+        LocalDateTime localDateTimeNow = LocalDateTime.now();
+        String formattedDateTime = localDateTimeNow.format(DATE_TIME_FORMATTER);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(formattedDateTime)
+                .append("Payment with car: ")
+                .append(payment.getRental().getCar().getBrand())
+                .append(" ")
+                .append(payment.getRental().getCar().getModel())
+                .append(" was ")
+                .append(payment.getStatus())
+                .append(" total ")
+                .append(payment.getTotal());
+        bot.sendMessage(payment.getRental().getUser(), stringBuilder.toString());
         return true;
     }
 

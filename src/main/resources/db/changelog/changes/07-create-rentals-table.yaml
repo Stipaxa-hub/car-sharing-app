@@ -41,6 +41,11 @@ databaseChangeLog:
                     foreignKeyName: fk_rentals_user_id
                     references: users(id)
               - column:
+                  name: status
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
                   name: deleted
                   type: boolean
                   defaultValueBoolean: false
