@@ -14,5 +14,6 @@ public interface PaymentService {
     void cancel(String sessionId);
 
     void save(PaymentRequestDto requestDto, Session session);
+
     BigDecimal getPrice(PaymentRequestDto paymentRequestDto);
 }

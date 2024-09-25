@@ -101,7 +101,8 @@ public class PaymentServiceImpl implements PaymentService {
             return dailyFee;
         }
         BigDecimal total = BigDecimal.valueOf(
-                        rental.getReturnDate().getDayOfYear() - rental.getRentalDate().getDayOfYear())
+                        rental.getReturnDate().getDayOfYear()
+                                - rental.getRentalDate().getDayOfYear())
                 .multiply(dailyFee);
 
         return total;

@@ -59,7 +59,8 @@ public class RentalController {
     @Operation(summary = "Return car from rental",
             description = "Enables customer to return car from rental")
     public RentalResponseDto setActualReturnDate(Authentication authentication,
-                                                 @RequestBody SetActualRentalReturnDateRequestDto requestDto) {
+                                                 @RequestBody SetActualRentalReturnDateRequestDto
+                                                         requestDto) {
         User user = (User) authentication.getPrincipal();
         return rentalService.setActualReturnDate(user.getId(), requestDto);
     }
