@@ -1,2 +1,0 @@
-databaseChangeLog:
-  - include: database/changelog/changes/01-create-cars-table.yaml
