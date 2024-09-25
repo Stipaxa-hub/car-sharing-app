@@ -12,8 +12,11 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.SoftDelete;
 
@@ -21,6 +24,9 @@ import org.hibernate.annotations.SoftDelete;
 @Table(name = "rentals")
 @Data
 @SoftDelete
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Rental {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

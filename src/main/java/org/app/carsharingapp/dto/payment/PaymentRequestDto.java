@@ -8,8 +8,5 @@ import lombok.Data;
 @Data
 public class PaymentRequestDto {
     @Positive
-    @NotNull
-    private BigDecimal total;
-    @Positive
     private Long rentalId;
 }

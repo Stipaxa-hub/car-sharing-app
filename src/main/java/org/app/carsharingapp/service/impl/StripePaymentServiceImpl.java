@@ -7,10 +7,15 @@ import com.stripe.model.checkout.Session;
 import com.stripe.param.PriceCreateParams;
 import com.stripe.param.checkout.SessionCreateParams;
 import jakarta.annotation.PostConstruct;
+import jakarta.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 import org.app.carsharingapp.dto.payment.PaymentCreateResponseDto;
 import org.app.carsharingapp.dto.payment.PaymentRequestDto;
+import org.app.carsharingapp.entity.Payment;
+import org.app.carsharingapp.entity.Rental;
+import org.app.carsharingapp.repository.PaymentRepository;
+import org.app.carsharingapp.repository.RentalRepository;
 import org.app.carsharingapp.service.PaymentService;
 import org.app.carsharingapp.service.StripePaymentService;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,10 +43,9 @@ public class StripePaymentServiceImpl implements StripePaymentService {
                 .setSuccessUrl(successUrl)
                 .setCancelUrl(cancelUrl)
                 .addLineItem(SessionCreateParams.LineItem.builder()
-                        .setPrice(getPrice(requestDto.getTotal()))
+                        .setPrice(getPrice(requestDto))
                         .setQuantity(1L)
-                        .build()
-                )
+                        .build())
                 .setMode(SessionCreateParams.Mode.PAYMENT)
                 .build();
         Session session;
@@ -54,7 +58,10 @@ public class StripePaymentServiceImpl implements StripePaymentService {
         return new PaymentCreateResponseDto(session.getUrl());
     }
 
-    private String getPrice(BigDecimal total) {
+    private String getPrice(PaymentRequestDto paymentRequestDto) {
+
+        BigDecimal total = paymentService.getPrice(paymentRequestDto);
+
         PriceCreateParams params = PriceCreateParams.builder()
                 .setCurrency("usd")
                 .setUnitAmount(total.longValue() * 100)
