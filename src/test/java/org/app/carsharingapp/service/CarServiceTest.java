@@ -3,12 +3,13 @@ package org.app.carsharingapp.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import jakarta.persistence.EntityNotFoundException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.app.carsharingapp.dto.car.CarDto;
@@ -16,7 +17,7 @@ import org.app.carsharingapp.entity.Car;
 import org.app.carsharingapp.mapper.CarMapper;
 import org.app.carsharingapp.repository.CarRepository;
 import org.app.carsharingapp.service.impl.CarServiceImpl;
-import org.app.carsharingapp.util.TestCarProvider;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,18 +30,44 @@ import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
 public class CarServiceTest {
+    private static final Long VALID_CAR_ID = 1L;
+    private static final Long INVALID_CAR_ID = 0L;
     @Mock
     private CarRepository carRepository;
     @Mock
     private CarMapper carMapper;
     @InjectMocks
     private CarServiceImpl carService;
+    private Car car;
+    private CarDto carDto;
+    private List<Car> cars = new ArrayList<>();
+    private List<CarDto> carsDto = new ArrayList<>();
+
+    @BeforeEach
+    void setUp() {
+        car = Car.builder()
+                .id(VALID_CAR_ID)
+                .model("Model S")
+                .brand("Tesla")
+                .type(Car.Type.SEDAN)
+                .inventory(5)
+                .dailyFee(BigDecimal.valueOf(99.9))
+                .build();
+
+        carDto = CarDto.builder()
+                .model("Model S")
+                .brand("Tesla")
+                .type(Car.Type.SEDAN)
+                .inventory(5)
+                .dailyFee(BigDecimal.valueOf(99.9))
+                .build();
+
+        cars.add(car);
+        carsDto.add(carDto);
+    }
 
     @Test
     void saveCar_WithValidCarDto_ShouldReturnValidCarDto() {
-        Car car = TestCarProvider.createDefaultCar();
-        CarDto carDto = TestCarProvider.createDefaultCarDto(car);
-
         when(carMapper.toModel(carDto)).thenReturn(car);
         when(carRepository.save(car)).thenReturn(car);
         when(carMapper.toDto(car)).thenReturn(carDto);
@@ -56,43 +83,33 @@ public class CarServiceTest {
     }
 
     @Test
-    void getCarById_ValidId_ShouldReturnValidCar() {
-        Long carId = 1L;
-        Car car = TestCarProvider.createDefaultCar();
-        CarDto carDto = TestCarProvider.createDefaultCarDto(car);
-
-        when(carRepository.findById(carId)).thenReturn(Optional.of(car));
+    void getCarById_ValidId_ShouldReturnValidCarDto() {
+        when(carRepository.findById(VALID_CAR_ID)).thenReturn(Optional.of(car));
         when(carMapper.toDto(car)).thenReturn(carDto);
 
-        CarDto actualCarDto = carService.getCarById(carId);
+        CarDto actualCarDto = carService.getCarById(VALID_CAR_ID);
 
         assertNotNull(actualCarDto);
         assertEquals(actualCarDto, carDto);
 
-        verify(carRepository, times(1)).findById(carId);
+        verify(carRepository, times(1)).findById(VALID_CAR_ID);
         verify(carMapper, times(1)).toDto(car);
     }
 
     @Test
     void findById_WithNotValidId_ShouldThrowException() {
-        Long carId = 0L;
+        when(carRepository.findById(INVALID_CAR_ID)).thenReturn(Optional.empty());
 
-        when(carRepository.findById(carId)).thenReturn(Optional.empty());
-
-        assertThrows(EntityNotFoundException.class, (() -> carService.getCarById(carId)));
+        assertThrows(EntityNotFoundException.class, (() -> carService.getCarById(INVALID_CAR_ID)));
     }
 
     @Test
     void getAllCars_ValidParam_ShouldReturnValidList() {
-        List<Car> cars = TestCarProvider.createDefaultCarList();
-        List<CarDto> carsDto = TestCarProvider.createDefaultCarDtoList(cars.get(0));
-        Pageable pageable = PageRequest.of(0, 3);
+        Pageable pageable = PageRequest.of(0, 1);
         Page<Car> carPage = new PageImpl<>(cars, pageable, cars.size());
 
         when(carRepository.findAll(pageable)).thenReturn(carPage);
         when(carMapper.toDto(cars.get(0))).thenReturn(carsDto.get(0));
-        when(carMapper.toDto(cars.get(1))).thenReturn(carsDto.get(1));
-        when(carMapper.toDto(cars.get(2))).thenReturn(carsDto.get(2));
 
         List<CarDto> actualListCarsDto = carService.getAllCars(pageable);
 
@@ -101,31 +118,38 @@ public class CarServiceTest {
 
         verify(carRepository, times(1)).findAll(pageable);
         verify(carMapper, times(1)).toDto(cars.get(0));
-        verify(carMapper, times(1)).toDto(cars.get(1));
-        verify(carMapper, times(1)).toDto(cars.get(2));
     }
 
     @Test
-    void updateCar_ValidId_ShouldUpdateCar() {
-        Long carId = 1L;
+    void updateCar_ValidParam_ShouldReturnUpdatedCarDto() {
+        when(carRepository.findById(VALID_CAR_ID)).thenReturn(Optional.of(car));
+        car.setInventory(7);
+        when(carRepository.save(car)).thenReturn(car);
+        carDto.setInventory(7);
+        when(carMapper.toDto(car)).thenReturn(carDto);
 
-        Car oldCar = TestCarProvider.createDefaultCar();
-
-        Car updatedCar = TestCarProvider.createDefaultCar();
-        updatedCar.setModel("Model Y");
-        CarDto updatedCarDto = TestCarProvider.createDefaultCarDto(updatedCar);
-
-        when(carRepository.findById(carId)).thenReturn(Optional.of(oldCar));
-        when(carRepository.save(updatedCar)).thenReturn(updatedCar);
-        when(carMapper.toDto(updatedCar)).thenReturn(updatedCarDto);
-
-        CarDto actualCarDto = carService.updateCar(carId, updatedCarDto);
+        CarDto actualCarDto = carService.updateCar(VALID_CAR_ID, carDto);
 
         assertNotNull(actualCarDto);
-        assertEquals(updatedCarDto, actualCarDto);
+        assertEquals(carDto, actualCarDto);
 
-        verify(carRepository, times(1)).findById(carId);
-        verify(carRepository, times(1)).save(updatedCar);
-        verify(carMapper, times(1)).toDto(updatedCar);
+        verify(carRepository, times(1)).findById(VALID_CAR_ID);
+        verify(carRepository, times(1)).save(car);
+        verify(carMapper, times(1)).toDto(car);
+    }
+
+    @Test
+    void updateCar_NotValidParam_ShouldThrowException() {
+        when(carRepository.findById(INVALID_CAR_ID)).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class,
+                (() -> carService.updateCar(INVALID_CAR_ID, carDto)));
+    }
+
+    @Test
+    void deleteCar_InvalidId_ShouldThrowException() {
+        when(carRepository.findById(INVALID_CAR_ID)).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, (() -> carService.deleteCar(INVALID_CAR_ID)));
     }
 }
