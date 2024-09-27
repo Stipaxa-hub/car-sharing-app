@@ -2,6 +2,7 @@ package org.app.carsharingapp.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -16,6 +17,8 @@ import org.app.carsharingapp.entity.Car;
 import org.app.carsharingapp.entity.Rental;
 import org.app.carsharingapp.entity.Role;
 import org.app.carsharingapp.entity.User;
+import org.app.carsharingapp.exception.AvailabilityCarsException;
+import org.app.carsharingapp.exception.RentalException;
 import org.app.carsharingapp.mapper.RentalMapper;
 import org.app.carsharingapp.repository.CarRepository;
 import org.app.carsharingapp.repository.RentalRepository;
@@ -112,5 +115,24 @@ class RentalServiceImplTest {
         assertEquals(responseDto, actualResponseDto);
 
         verify(rentalRepository).save(rental);
+    }
+
+    @Test
+    void addRental_InvalidCarInventory_ShouldThrowException() {
+        car.setInventory(0);
+
+        when(rentalMapper.toModel(requestDto)).thenReturn(rental);
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        when(carRepository.findById(1L)).thenReturn(Optional.of(car));
+
+        assertThrows(AvailabilityCarsException.class, (() -> rentalService.addRental(VALID_ID, requestDto)));
+    }
+
+    @Test
+    void addRental_InvalidReturnDate_ShouldThrowException() {
+        requestDto = new RentalRequestDto(LocalDate.now(), LocalDate.now().minusDays(2), VALID_ID);
+
+        assertThrows(RentalException.class, (() -> rentalService.addRental(VALID_ID, requestDto)));
+
     }
 }
