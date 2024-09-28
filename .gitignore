@@ -34,3 +34,6 @@ build/
 
 ### Enviroment variables ###
 .env
+
+### README pictures ###
+/readme-pic
