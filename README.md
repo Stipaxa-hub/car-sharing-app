@@ -204,14 +204,17 @@ Track and manage all active and past rentals with ease. The system provides deta
 
 Here are some visuals demonstrating the functionality of the Car Sharing Service:
 
-1. **Admin Dashboard: Manage Cars, Users, Rentals, and Payments**
-   ![Car Sharing Service Management Interface](./path/to/admin-dashboard-image.png)
-
-2. **Rental Booking and Payment Interface**
-   ![Rental Booking Interface](./path/to/rental-booking-image.png)
+1. **Telegram Notification:**
+      ![login](readme-pic/login_telegram.gif)
+      ![rental_car](readme-pic/rental.png)
+      ![return_car](readme-pic/return.png)
+      ![payment_telegram](readme-pic/payment_telegram.png)
+      ![cancel_notification](readme-pic/cancel_not.png)
+3. **Payment**
+   ![payment_interface](/readme-pic/payment.png)
+   ![payment_response](/readme-pic/response_payment.png)
 
 ---
 
-## License
-
-This project is licensed under the MIT License.
+## Author
+- 👨‍💻[Stepan Petriv](https://github.com/Stipaxa-hub)
