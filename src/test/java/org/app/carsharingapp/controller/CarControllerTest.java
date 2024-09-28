@@ -22,7 +22,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
 
-
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CarControllerTest {
     protected static MockMvc mockMvc;
@@ -62,7 +61,9 @@ public class CarControllerTest {
                 .andReturn();
 
         //Then
-        CarDto actualCarDto = objectMapper.readValue(result.getResponse().getContentAsString(), CarDto.class);
+        CarDto actualCarDto = objectMapper.readValue(
+                result.getResponse().getContentAsString(), CarDto.class
+        );
         assertNotNull(actualCarDto);
         EqualsBuilder.reflectionEquals(expectedCarDto, actualCarDto, "id");
         EqualsBuilder.reflectionEquals(expectedCarDto, actualCarDto, "model");

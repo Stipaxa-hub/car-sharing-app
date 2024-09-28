@@ -125,7 +125,8 @@ class RentalServiceImplTest {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
         when(carRepository.findById(1L)).thenReturn(Optional.of(car));
 
-        assertThrows(AvailabilityCarsException.class, (() -> rentalService.addRental(VALID_ID, requestDto)));
+        assertThrows(AvailabilityCarsException.class,
+                (() -> rentalService.addRental(VALID_ID, requestDto)));
     }
 
     @Test
