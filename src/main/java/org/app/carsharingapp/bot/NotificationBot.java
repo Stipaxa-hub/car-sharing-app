@@ -20,7 +20,6 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Component
 public class NotificationBot extends TelegramLongPollingBot {
-    private static final Long CHAT_ID = -1002107651145L;
     private static final String START_COMMAND = "/start";
     private static final String AUTH_COMMAND = "/auth";
     private static final String CANCEL_COMMAND = "/cancel";
