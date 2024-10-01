@@ -38,10 +38,9 @@ public class StripePaymentServiceImpl implements StripePaymentService {
                 .setSuccessUrl(successUrl)
                 .setCancelUrl(cancelUrl)
                 .addLineItem(SessionCreateParams.LineItem.builder()
-                        .setPrice(getPrice(requestDto.getTotal()))
+                        .setPrice(getPrice(requestDto))
                         .setQuantity(1L)
-                        .build()
-                )
+                        .build())
                 .setMode(SessionCreateParams.Mode.PAYMENT)
                 .build();
         Session session;
@@ -54,7 +53,10 @@ public class StripePaymentServiceImpl implements StripePaymentService {
         return new PaymentCreateResponseDto(session.getUrl());
     }
 
-    private String getPrice(BigDecimal total) {
+    private String getPrice(PaymentRequestDto paymentRequestDto) {
+
+        BigDecimal total = paymentService.getPrice(paymentRequestDto);
+
         PriceCreateParams params = PriceCreateParams.builder()
                 .setCurrency("usd")
                 .setUnitAmount(total.longValue() * 100)

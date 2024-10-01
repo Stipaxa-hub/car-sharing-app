@@ -58,8 +58,10 @@ public class RentalController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Return car from rental",
             description = "Enables customer to return car from rental")
-    public RentalResponseDto setActualReturnDate(Long userId,
-                                                 SetActualRentalReturnDateRequestDto requestDto) {
-        return rentalService.setActualReturnDate(userId, requestDto);
+    public RentalResponseDto setActualReturnDate(Authentication authentication,
+                                                 @RequestBody SetActualRentalReturnDateRequestDto
+                                                         requestDto) {
+        User user = (User) authentication.getPrincipal();
+        return rentalService.setActualReturnDate(user.getId(), requestDto);
     }
 }

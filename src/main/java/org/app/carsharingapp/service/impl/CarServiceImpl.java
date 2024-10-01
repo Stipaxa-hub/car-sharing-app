@@ -28,7 +28,6 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public CarDto getCarById(Long id) {
-        carRepository.findById(id);
         return carMapper.toDto(
                 carRepository.findById(id)
                         .orElseThrow(() -> new EntityNotFoundException(
@@ -39,7 +38,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<CarDto> getAllCars(Pageable pageable) {
-        return carRepository.findAll().stream()
+        return carRepository.findAll(pageable).stream()
                 .map(carMapper::toDto)
                 .collect(Collectors.toList());
     }

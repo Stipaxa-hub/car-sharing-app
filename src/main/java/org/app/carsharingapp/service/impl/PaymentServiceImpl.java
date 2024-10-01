@@ -2,6 +2,7 @@ package org.app.carsharingapp.service.impl;
 
 import com.stripe.model.checkout.Session;
 import jakarta.persistence.EntityNotFoundException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -86,7 +87,24 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setRental(rental);
         payment.setSessionId(session.getId());
         payment.setSessionUrl(session.getUrl());
-        payment.setTotal(requestDto.getTotal());
+        payment.setTotal(getPrice(requestDto));
         paymentRepository.save(payment);
+    }
+
+    public BigDecimal getPrice(PaymentRequestDto paymentRequestDto) {
+        Rental rental = rentalRepository.findById(
+                        paymentRequestDto.getRentalId())
+                .orElseThrow(() -> new EntityNotFoundException("Can't find rental with id: "
+                        + paymentRequestDto.getRentalId()));
+        BigDecimal dailyFee = rental.getCar().getDailyFee();
+        if (rental.getReturnDate().getDayOfYear() - rental.getRentalDate().getDayOfYear() == 0) {
+            return dailyFee;
+        }
+        BigDecimal total = BigDecimal.valueOf(
+                        rental.getReturnDate().getDayOfYear()
+                                - rental.getRentalDate().getDayOfYear())
+                .multiply(dailyFee);
+
+        return total;
     }
 }
