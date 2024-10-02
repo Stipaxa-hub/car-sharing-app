@@ -26,7 +26,7 @@ public class Payment {
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(nullable = false)
     private Status status;
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rental_id", nullable = false)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

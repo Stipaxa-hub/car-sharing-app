@@ -31,7 +31,7 @@ public class PaymentServiceImpl implements PaymentService {
     public List<PaymentResponseDto> getPaymentsByCustomerId(Long customerId) {
         return paymentRepository.findAllByCustomerId(customerId).stream()
                 .map(paymentMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

@@ -14,7 +14,6 @@ public class OpenApiConfig {
     private static final String BEARER_FORMAT = "JWT";
     private static final String SECURITY_REQUIREMENT = "BearerAuth";
 
-
     @Bean
     public OpenAPI customOpenApi() {
         return new OpenAPI()

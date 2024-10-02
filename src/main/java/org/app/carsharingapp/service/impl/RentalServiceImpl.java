@@ -71,7 +71,7 @@ public class RentalServiceImpl implements RentalService {
         List<Rental> rentals = rentalRepository.findAllByUserId(userId);
         return rentals.stream()
                 .map(rentalMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CarController {
     private final CarService carService;
 
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Create a new car", description = "Enables manager to create new cars")
@@ -47,14 +47,14 @@ public class CarController {
         return carService.getAllCars(pageable);
     }
 
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PutMapping("/{id}")
     @Operation(summary = "Update car by id", description = "Allows managers to update cars info")
     public CarDto updateCar(@PathVariable Long id, @RequestBody @Valid CarDto carDto) {
         return carService.updateCar(id, carDto);
     }
 
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @Operation(summary = "Delete car by id", description = "Allows managers to delete cars")
