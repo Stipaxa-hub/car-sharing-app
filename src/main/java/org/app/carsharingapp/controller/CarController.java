@@ -56,7 +56,7 @@ public class CarController {
 
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Delete car by id", description = "Allows managers to delete cars")
     public void deleteCar(@PathVariable Long id) {
         carService.deleteCar(id);

@@ -55,6 +55,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, exception);
     }
 
+    @ExceptionHandler(CarCreateException.class)
+    public ResponseEntity<Object> handleCarCreateException(Exception exception) {
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, exception);
+    }
+
     private String getErrorMessage(ObjectError e) {
         if (e instanceof FieldError) {
             String field = ((FieldError) e).getField();

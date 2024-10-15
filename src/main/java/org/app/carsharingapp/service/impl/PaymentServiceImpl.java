@@ -4,7 +4,6 @@ import com.stripe.model.checkout.Session;
 import jakarta.persistence.EntityNotFoundException;
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.app.carsharingapp.dto.payment.PaymentRequestDto;
 import org.app.carsharingapp.dto.payment.PaymentResponseDto;

@@ -2,10 +2,10 @@ package org.app.carsharingapp.service.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.app.carsharingapp.dto.car.CarDto;
 import org.app.carsharingapp.entity.Car;
+import org.app.carsharingapp.exception.CarCreateException;
 import org.app.carsharingapp.mapper.CarMapper;
 import org.app.carsharingapp.repository.CarRepository;
 import org.app.carsharingapp.service.CarService;
@@ -20,6 +20,9 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public CarDto createCar(CarDto carDto) {
+        if (carDto.getInventory() < 1) {
+            throw new CarCreateException("Car inventory must be greater than 0");
+        }
         Car savedCar = carRepository.save(carMapper.toModel(carDto));
         return carMapper.toDto(savedCar);
     }
