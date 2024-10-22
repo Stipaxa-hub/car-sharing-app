@@ -138,6 +138,5 @@ class RentalServiceImplTest {
         requestDto = new RentalRequestDto(LocalDate.now(), LocalDate.now().minusDays(2), VALID_ID);
 
         assertThrows(RentalException.class, (() -> rentalService.addRental(VALID_ID, requestDto)));
-
     }
 }
