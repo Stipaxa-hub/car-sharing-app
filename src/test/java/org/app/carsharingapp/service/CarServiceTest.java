@@ -18,6 +18,7 @@ import org.app.carsharingapp.mapper.CarMapper;
 import org.app.carsharingapp.repository.CarRepository;
 import org.app.carsharingapp.service.impl.CarServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -67,6 +68,7 @@ public class CarServiceTest {
     }
 
     @Test
+    @DisplayName("Save car success")
     void saveCar_WithValidCarDto_ShouldReturnValidCarDto() {
         when(carMapper.toModel(carDto)).thenReturn(car);
         when(carRepository.save(car)).thenReturn(car);
@@ -83,6 +85,7 @@ public class CarServiceTest {
     }
 
     @Test
+    @DisplayName("Get car by id success")
     void getCarById_ValidId_ShouldReturnValidCarDto() {
         when(carRepository.findById(VALID_CAR_ID)).thenReturn(Optional.of(car));
         when(carMapper.toDto(car)).thenReturn(carDto);
@@ -97,13 +100,15 @@ public class CarServiceTest {
     }
 
     @Test
-    void findById_WithNotValidId_ShouldThrowException() {
+    @DisplayName("Get car by id exception")
+    void getById_WithNotValidId_ShouldThrowException() {
         when(carRepository.findById(INVALID_CAR_ID)).thenReturn(Optional.empty());
 
         assertThrows(EntityNotFoundException.class, (() -> carService.getCarById(INVALID_CAR_ID)));
     }
 
     @Test
+    @DisplayName("Get all car success")
     void getAllCars_ValidParam_ShouldReturnValidList() {
         Pageable pageable = PageRequest.of(0, 1);
         Page<Car> carPage = new PageImpl<>(cars, pageable, cars.size());
@@ -121,6 +126,7 @@ public class CarServiceTest {
     }
 
     @Test
+    @DisplayName("Update car success")
     void updateCar_ValidParam_ShouldReturnUpdatedCarDto() {
         when(carRepository.findById(VALID_CAR_ID)).thenReturn(Optional.of(car));
         car.setInventory(7);
@@ -139,6 +145,7 @@ public class CarServiceTest {
     }
 
     @Test
+    @DisplayName("Update car exception")
     void updateCar_NotValidParam_ShouldThrowException() {
         when(carRepository.findById(INVALID_CAR_ID)).thenReturn(Optional.empty());
 
@@ -147,6 +154,7 @@ public class CarServiceTest {
     }
 
     @Test
+    @DisplayName("Delete car exception")
     void deleteCar_InvalidId_ShouldThrowException() {
         when(carRepository.findById(INVALID_CAR_ID)).thenReturn(Optional.empty());
 

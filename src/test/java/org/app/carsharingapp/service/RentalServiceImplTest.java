@@ -25,6 +25,7 @@ import org.app.carsharingapp.repository.RentalRepository;
 import org.app.carsharingapp.repository.UserRepository;
 import org.app.carsharingapp.service.impl.RentalServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -102,6 +103,7 @@ class RentalServiceImplTest {
     }
 
     @Test
+    @DisplayName("Add rental success")
     void addRental_ValidParams_ShouldReturnValidRentalResponseDto() {
         when(rentalMapper.toModel(requestDto)).thenReturn(rental);
         when(userRepository.findById(VALID_ID)).thenReturn(Optional.of(user));
@@ -118,6 +120,7 @@ class RentalServiceImplTest {
     }
 
     @Test
+    @DisplayName("Add rental exception")
     void addRental_InvalidCarInventory_ShouldThrowException() {
         car.setInventory(0);
 
@@ -130,10 +133,10 @@ class RentalServiceImplTest {
     }
 
     @Test
+    @DisplayName("Add rental exception")
     void addRental_InvalidReturnDate_ShouldThrowException() {
         requestDto = new RentalRequestDto(LocalDate.now(), LocalDate.now().minusDays(2), VALID_ID);
 
         assertThrows(RentalException.class, (() -> rentalService.addRental(VALID_ID, requestDto)));
-
     }
 }

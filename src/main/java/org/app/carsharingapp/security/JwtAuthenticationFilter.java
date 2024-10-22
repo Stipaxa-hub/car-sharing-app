@@ -1,5 +1,7 @@
 package org.app.carsharingapp.security;
 
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,7 +20,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @Configuration
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private static final String HEADER = "AUTHORIZATION";
     private static final String BEARER_NAME_TOKEN = "Bearer ";
     private static final int TOKEN_START_INDEX = 7;
     private final JwtUtil jwtUtil;
@@ -41,7 +42,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private String getToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader(HEADER);
+        String bearerToken = request.getHeader(AUTHORIZATION);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_NAME_TOKEN)) {
             return bearerToken.substring(TOKEN_START_INDEX);
         }

@@ -14,5 +14,4 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
             + "JOIN FETCH r.user u "
             + "WHERE u.id = :customerId")
     List<Payment> findAllByCustomerId(Long customerId);
-
 }

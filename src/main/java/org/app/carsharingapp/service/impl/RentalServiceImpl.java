@@ -3,7 +3,6 @@ package org.app.carsharingapp.service.impl;
 import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.app.carsharingapp.dto.rental.RentalRequestDto;
 import org.app.carsharingapp.dto.rental.RentalResponseDto;
@@ -71,7 +70,7 @@ public class RentalServiceImpl implements RentalService {
         List<Rental> rentals = rentalRepository.findAllByUserId(userId);
         return rentals.stream()
                 .map(rentalMapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override

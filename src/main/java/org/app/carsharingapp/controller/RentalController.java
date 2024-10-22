@@ -8,6 +8,7 @@ import org.app.carsharingapp.dto.rental.RentalRequestDto;
 import org.app.carsharingapp.dto.rental.RentalResponseDto;
 import org.app.carsharingapp.dto.rental.SetActualRentalReturnDateRequestDto;
 import org.app.carsharingapp.entity.User;
+import org.app.carsharingapp.exception.RentalException;
 import org.app.carsharingapp.service.RentalService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -51,7 +52,7 @@ public class RentalController {
                 .anyMatch(authority -> authority.getAuthority().equals("ROLE_CUSTOMER"))) {
             return rentalService.getCustomerRentals(user.getId(), pageable);
         }
-        throw new RuntimeException("Bad request");
+        throw new RentalException("Bad request for get rentals");
     }
 
     @PostMapping("/return")

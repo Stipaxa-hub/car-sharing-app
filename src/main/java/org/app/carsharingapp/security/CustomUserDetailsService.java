@@ -1,5 +1,6 @@
 package org.app.carsharingapp.security;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.app.carsharingapp.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +16,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException(
+                .orElseThrow(() -> new EntityNotFoundException(
                         "Can't find user with email " + username
                 ));
     }

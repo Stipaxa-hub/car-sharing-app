@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
 
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     @PutMapping("/{userId}/role")
     @Operation(summary = "Update user's role",
             description = "Enables manager to update user's role")
