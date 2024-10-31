@@ -26,7 +26,7 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @GetMapping
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasRole('ROLE_MANAGER')")
     public List<PaymentResponseDto> getPaymentsByUserId(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return paymentService.getPaymentsByCustomerId(user.getId());

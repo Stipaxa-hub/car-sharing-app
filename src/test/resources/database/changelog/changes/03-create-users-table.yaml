@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create-rentals-table
+      id: create-users-table
       author: Stepan
       changes:
         - createTable:
-            tableName: rentals
+            tableName: users
             columns:
               - column:
                   name: id
@@ -14,34 +14,32 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: rental_date
-                  type: date
-                  constraints:
-                    nullable: false
-              - column:
-                  name: return_date
-                  type: date
-                  constraints:
-                    nullable: false
-              - column:
-                  name: actual_return_date
-                  type: date
-              - column:
-                  name: car_id
-                  type: bigint
-                  constraints:
-                    nullable: false
-                    foreignKeyName: fk_rentals_car_id
-                    references: cars(id)
-              - column:
-                  name: user_id
-                  type: bigint
-                  constraints:
-                    nullable: false
-                    foreignKeyName: fk_rentals_user_id
-                    references: users(id)
-              - column:
-                  name: status
+                  name: email
                   type: varchar(255)
+                  constraints:
+                    nullable: false
+                    unique: true
+              - column:
+                  name: first_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: chat_id
+                  type: bigint
+              - column:
+                  name: deleted
+                  type: boolean
+                  defaultValueBoolean: false
                   constraints:
                     nullable: false
