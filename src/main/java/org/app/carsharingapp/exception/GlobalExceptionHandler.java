@@ -40,23 +40,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return buildErrorResponse(HttpStatus.NOT_FOUND, exception);
     }
 
-    @ExceptionHandler(RegistrationException.class)
-    public ResponseEntity<Object> handleRegistrationException(Exception exception) {
-        return buildErrorResponse(HttpStatus.BAD_REQUEST, exception);
-    }
-
-    @ExceptionHandler(RentalException.class)
-    public ResponseEntity<Object> handleRentalException(Exception exception) {
-        return buildErrorResponse(HttpStatus.BAD_REQUEST, exception);
-    }
-
-    @ExceptionHandler(TelegramMessageException.class)
-    public ResponseEntity<Object> handleTelegramMessageException(Exception exception) {
-        return buildErrorResponse(HttpStatus.BAD_REQUEST, exception);
-    }
-
-    @ExceptionHandler(CarCreateException.class)
-    public ResponseEntity<Object> handleCarCreateException(Exception exception) {
+    @ExceptionHandler({RegistrationException.class,
+            RentalException.class,
+            TelegramMessageException.class,
+            CarCreateException.class,
+            PaymentException.class})
+    public ResponseEntity<Object> handleBadRequestExceptions(Exception exception) {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, exception);
     }
 
