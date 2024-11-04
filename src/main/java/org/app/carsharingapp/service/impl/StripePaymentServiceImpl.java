@@ -11,7 +11,9 @@ import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 import org.app.carsharingapp.dto.payment.PaymentCreateResponseDto;
 import org.app.carsharingapp.dto.payment.PaymentRequestDto;
+import org.app.carsharingapp.exception.PaymentException;
 import org.app.carsharingapp.service.PaymentService;
+import org.app.carsharingapp.service.PriceCalculatorService;
 import org.app.carsharingapp.service.StripePaymentService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class StripePaymentServiceImpl implements StripePaymentService {
     private final PaymentService paymentService;
+    private final PriceCalculatorService priceCalculatorService;
     @Value("${stripe.success.url}")
     private String successUrl;
     @Value("${stripe.cancel.url}")
@@ -47,7 +50,7 @@ public class StripePaymentServiceImpl implements StripePaymentService {
         try {
             session = Session.create(params);
         } catch (StripeException e) {
-            throw new RuntimeException(e);
+            throw new PaymentException("Can't create payment session");
         }
         paymentService.save(requestDto, session);
         return new PaymentCreateResponseDto(session.getUrl());
@@ -55,7 +58,7 @@ public class StripePaymentServiceImpl implements StripePaymentService {
 
     private String getPrice(PaymentRequestDto paymentRequestDto) {
 
-        BigDecimal total = paymentService.getPrice(paymentRequestDto);
+        BigDecimal total = priceCalculatorService.getPrice(paymentRequestDto);
 
         PriceCreateParams params = PriceCreateParams.builder()
                 .setCurrency("usd")
@@ -67,7 +70,7 @@ public class StripePaymentServiceImpl implements StripePaymentService {
         try {
             return Price.create(params).getId();
         } catch (StripeException e) {
-            throw new RuntimeException(e);
+            throw new PaymentException("Can't create price for rental!");
         }
     }
 }

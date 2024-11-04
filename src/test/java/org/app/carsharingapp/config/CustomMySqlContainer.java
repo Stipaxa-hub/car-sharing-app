@@ -22,7 +22,6 @@ public class CustomMySqlContainer extends MySQLContainer<CustomMySqlContainer> {
     public void start() {
         super.start();
         System.setProperty("TEST_DB_URL", mysqlContainer.getJdbcUrl());
-        System.out.println("Credentials" + mysqlContainer.getJdbcUrl());
         System.setProperty("TEST_DB_USERNAME", mysqlContainer.getUsername());
         System.setProperty("TEST_DB_PASSWORD", mysqlContainer.getPassword());
     }
