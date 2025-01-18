@@ -2,7 +2,6 @@ package org.app.carsharingapp.service.impl;
 
 import com.stripe.model.checkout.Session;
 import jakarta.persistence.EntityNotFoundException;
-import java.math.BigDecimal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.app.carsharingapp.dto.payment.PaymentRequestDto;
@@ -15,6 +14,7 @@ import org.app.carsharingapp.repository.PaymentRepository;
 import org.app.carsharingapp.repository.RentalRepository;
 import org.app.carsharingapp.service.NotificationService;
 import org.app.carsharingapp.service.PaymentService;
+import org.app.carsharingapp.service.PriceCalculatorService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +25,7 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentMapper paymentMapper;
     private final RentalRepository rentalRepository;
     private final NotificationService notificationService;
+    private final PriceCalculatorService priceCalculatorService;
 
     @Override
     public List<PaymentResponseDto> getPaymentsByCustomerId(Long customerId) {
@@ -81,29 +82,12 @@ public class PaymentServiceImpl implements PaymentService {
                         () -> new EntityNotFoundException("Rental not found "
                                 + requestDto.getRentalId()));
 
-        Payment payment = new Payment();
+        Payment payment = paymentMapper.toModel(requestDto);
         payment.setStatus(Payment.Status.PROCESSING);
         payment.setRental(rental);
         payment.setSessionId(session.getId());
         payment.setSessionUrl(session.getUrl());
-        payment.setTotal(getPrice(requestDto));
+        payment.setTotal(priceCalculatorService.getPrice(requestDto));
         paymentRepository.save(payment);
-    }
-
-    public BigDecimal getPrice(PaymentRequestDto paymentRequestDto) {
-        Rental rental = rentalRepository.findById(
-                        paymentRequestDto.getRentalId())
-                .orElseThrow(() -> new EntityNotFoundException("Can't find rental with id: "
-                        + paymentRequestDto.getRentalId()));
-        BigDecimal dailyFee = rental.getCar().getDailyFee();
-        if (rental.getReturnDate().getDayOfYear() - rental.getRentalDate().getDayOfYear() == 0) {
-            return dailyFee;
-        }
-        BigDecimal total = BigDecimal.valueOf(
-                        rental.getReturnDate().getDayOfYear()
-                                - rental.getRentalDate().getDayOfYear())
-                .multiply(dailyFee);
-
-        return total;
     }
 }
