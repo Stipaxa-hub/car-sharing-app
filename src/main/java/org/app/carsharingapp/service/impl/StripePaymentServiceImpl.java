@@ -70,7 +70,7 @@ public class StripePaymentServiceImpl implements StripePaymentService {
         try {
             return Price.create(params).getId();
         } catch (StripeException e) {
-            throw new PaymentException("Can't create price for rental!");
+            throw new PaymentException("Can't get price for Rental! " + e.getMessage());
         }
     }
 }

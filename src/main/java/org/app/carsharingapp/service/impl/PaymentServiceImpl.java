@@ -77,14 +77,8 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     @Transactional
     public void save(PaymentRequestDto requestDto, Session session) {
-        Rental rental = rentalRepository.findById(
-                requestDto.getRentalId()).orElseThrow(
-                        () -> new EntityNotFoundException("Rental not found "
-                                + requestDto.getRentalId()));
-
         Payment payment = paymentMapper.toModel(requestDto);
         payment.setStatus(Payment.Status.PROCESSING);
-        payment.setRental(rental);
         payment.setSessionId(session.getId());
         payment.setSessionUrl(session.getUrl());
         payment.setTotal(priceCalculatorService.getPrice(requestDto));

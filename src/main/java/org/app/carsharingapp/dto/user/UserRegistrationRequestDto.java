@@ -2,7 +2,6 @@ package org.app.carsharingapp.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import org.app.carsharingapp.validator.Email;
 import org.app.carsharingapp.validator.FieldMatcher;
 import org.app.carsharingapp.validator.Password;
 
@@ -13,7 +12,6 @@ import org.app.carsharingapp.validator.Password;
 )
 @Data
 public class UserRegistrationRequestDto {
-    @Email
     private String email;
     @NotBlank(message = "First name can't be empty")
     private String firstName;

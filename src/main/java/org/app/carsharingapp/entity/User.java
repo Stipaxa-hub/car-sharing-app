@@ -10,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 import java.util.Collection;
 import java.util.Set;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Email
     @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
