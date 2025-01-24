@@ -210,7 +210,7 @@ Here are some visuals demonstrating the functionality of the Car Sharing Service
       ![return_car](readme-pic/return.png)
       ![payment_telegram](readme-pic/payment_telegram.png)
       ![cancel_notification](readme-pic/cancel_not.png)
-3. **Payment**
+2. **Payment**
    ![payment_interface](/readme-pic/payment.png)
    ![payment_response](/readme-pic/response_payment.png)
 
