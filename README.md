@@ -205,6 +205,7 @@ Track and manage all active and past rentals with ease. The system provides deta
 Here are some visuals demonstrating the functionality of the Car Sharing Service:
 
 1. **Telegram Notification:**
+
       ![login](readme-pic/login_telegram.gif)
       ![rental_car](readme-pic/rental.png)
       ![return_car](readme-pic/return.png)
