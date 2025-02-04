@@ -1,9 +1,11 @@
 package org.app.carsharingapp.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class UserLoginRequestDto {
     private String email;
     @NotBlank

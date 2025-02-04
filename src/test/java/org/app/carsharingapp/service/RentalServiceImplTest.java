@@ -58,48 +58,42 @@ class RentalServiceImplTest {
 
     @BeforeEach
     void setUp() {
-        role = Role.builder()
-                .id(VALID_ID)
-                .id(VALID_ID)
-                .roleName(Role.RoleName.CUSTOMER)
-                .build();
+        role = new Role()
+                .setId(VALID_ID)
+                .setRoleName(Role.RoleName.CUSTOMER);
 
-        user = User.builder()
-                .id(VALID_ID)
-                .email("email@email.com")
-                .firstName("Name")
-                .lastName("Surname")
-                .password("1234")
-                .roles(Set.of(role))
-                .build();
+        user = new User()
+                .setId(VALID_ID)
+                .setEmail("email@email.com")
+                .setFirstName("Name")
+                .setLastName("Surname")
+                .setPassword("1234")
+                .setRoles(Set.of(role));
 
-        car = Car.builder()
-                .id(VALID_ID)
-                .model("Model S")
-                .brand("Tesla")
-                .type(Car.Type.SEDAN)
-                .inventory(3)
-                .dailyFee(BigDecimal.valueOf(99.9))
-                .build();
+        car = new Car()
+                .setId(VALID_ID)
+                .setModel("Model S")
+                .setBrand("Tesla")
+                .setType(Car.Type.SEDAN)
+                .setInventory(3)
+                .setDailyFee(BigDecimal.valueOf(99.9));
 
-        rental = Rental.builder()
-                .id(VALID_ID)
-                .rentalDate(RENTAL_DATE)
-                .returnDate(RENTAL_RETURN_DATE)
-                .car(car)
-                .user(user)
-                .status(Rental.Status.PENDING)
-                .build();
+        rental = new Rental()
+                .setId(VALID_ID)
+                .setRentalDate(RENTAL_DATE)
+                .setReturnDate(RENTAL_RETURN_DATE)
+                .setCar(car)
+                .setUser(user)
+                .setStatus(Rental.Status.PENDING);
 
         requestDto = new RentalRequestDto(RENTAL_DATE, RENTAL_RETURN_DATE, VALID_ID);
 
-        responseDto = RentalResponseDto.builder()
-                .rentalId(VALID_ID)
-                .rentalDate(RENTAL_DATE)
-                .returnDate(RENTAL_RETURN_DATE)
-                .carId(VALID_ID)
-                .userId(VALID_ID)
-                .build();
+        responseDto = new RentalResponseDto()
+                .setRentalId(VALID_ID)
+                .setRentalDate(RENTAL_DATE)
+                .setReturnDate(RENTAL_RETURN_DATE)
+                .setCarId(VALID_ID)
+                .setUserId(VALID_ID);
     }
 
     @Test

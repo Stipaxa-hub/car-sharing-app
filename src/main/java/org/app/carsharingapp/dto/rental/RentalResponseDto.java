@@ -1,11 +1,13 @@
 package org.app.carsharingapp.dto.rental;
 
 import java.time.LocalDate;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
-@Data
-@Builder
+@Getter
+@Setter
+@Accessors(chain = true)
 public class RentalResponseDto {
     private Long rentalId;
     private LocalDate rentalDate;

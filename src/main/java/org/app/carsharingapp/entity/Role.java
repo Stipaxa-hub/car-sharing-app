@@ -8,18 +8,14 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.springframework.security.core.GrantedAuthority;
 
 @Entity
 @Table(name = "roles")
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Accessors(chain = true)
 @Getter
 @Setter
 public class Role implements GrantedAuthority {

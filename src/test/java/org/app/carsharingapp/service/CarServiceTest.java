@@ -46,22 +46,20 @@ public class CarServiceTest {
 
     @BeforeEach
     void setUp() {
-        car = Car.builder()
-                .id(VALID_CAR_ID)
-                .model("Model S")
-                .brand("Tesla")
-                .type(Car.Type.SEDAN)
-                .inventory(5)
-                .dailyFee(BigDecimal.valueOf(99.9))
-                .build();
+        car = new Car()
+                .setId(VALID_CAR_ID)
+                .setModel("Model S")
+                .setBrand("Tesla")
+                .setType(Car.Type.SEDAN)
+                .setInventory(5)
+                .setDailyFee(BigDecimal.valueOf(99.9));
 
-        carDto = CarDto.builder()
-                .model("Model S")
-                .brand("Tesla")
-                .type(Car.Type.SEDAN)
-                .inventory(5)
-                .dailyFee(BigDecimal.valueOf(99.9))
-                .build();
+        carDto = new CarDto()
+                .setModel("Model S")
+                .setBrand("Tesla")
+                .setType(Car.Type.SEDAN)
+                .setInventory(5)
+                .setDailyFee(BigDecimal.valueOf(99.9));
 
         cars.add(car);
         carsDto.add(carDto);

@@ -9,16 +9,16 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.SoftDelete;
 
 @Entity(name = "cars")
 @Getter
 @Setter
-@Builder
+@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @SoftDelete

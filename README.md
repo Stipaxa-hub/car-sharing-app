@@ -1,6 +1,6 @@
 # Car Sharing Service
 
-![car_intro](readme-pic/car_sharing_intro.jpg)
+![car_intro](assets/car_sharing_intro.jpg)
 
 ## Project Overview
 
@@ -146,7 +146,7 @@ Track and manage all active and past rentals with ease. The system provides deta
 
 ## Project Structure
 
-![project_structure](readme-pic/architecture.png)
+![project_structure](assets/architecture.png)
 
 ## Endpoints
 
@@ -206,14 +206,14 @@ Here are some visuals demonstrating the functionality of the Car Sharing Service
 
 1. **Telegram Notification:**
 
-      ![login](readme-pic/login_telegram.gif)
-      ![rental_car](readme-pic/rental.png)
-      ![return_car](readme-pic/return.png)
-      ![payment_telegram](readme-pic/payment_telegram.png)
-      ![cancel_notification](readme-pic/cancel_not.png)
+      ![login](assets/login_telegram.gif)
+      ![rental_car](assets/rental.png)
+      ![return_car](assets/return.png)
+      ![payment_telegram](assets/payment_telegram.png)
+      ![cancel_notification](assets/cancel_not.png)
 2. **Payment**
-   ![payment_interface](/readme-pic/payment.png)
-   ![payment_response](/readme-pic/response_payment.png)
+   ![payment_interface](/assets/payment.png)
+   ![payment_response](/assets/response_payment.png)
 
 ---
 

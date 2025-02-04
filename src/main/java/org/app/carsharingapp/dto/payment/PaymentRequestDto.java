@@ -2,9 +2,13 @@ package org.app.carsharingapp.dto.payment;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
-@Data
+@Getter
+@Setter
+@Accessors(chain = true)
 public class PaymentRequestDto {
     @Positive
     @NotNull

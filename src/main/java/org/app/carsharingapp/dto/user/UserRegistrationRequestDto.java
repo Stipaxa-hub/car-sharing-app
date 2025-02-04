@@ -1,7 +1,9 @@
 package org.app.carsharingapp.dto.user;
 
 import jakarta.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.app.carsharingapp.validator.FieldMatcher;
 import org.app.carsharingapp.validator.Password;
 
@@ -10,7 +12,9 @@ import org.app.carsharingapp.validator.Password;
         fieldMatch = "repeatPassword",
         message = "Password must match"
 )
-@Data
+@Getter
+@Setter
+@Accessors(chain = true)
 public class UserRegistrationRequestDto {
     private String email;
     @NotBlank(message = "First name can't be empty")

@@ -28,11 +28,9 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 import org.testcontainers.shaded.org.apache.commons.lang3.builder.EqualsBuilder;
 
-@Transactional
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CarControllerTest {
     protected static MockMvc mockMvc;
@@ -54,21 +52,15 @@ public class CarControllerTest {
     @DisplayName("Create new car")
     void createCar() throws Exception {
         //Given
-        CarDto expectedCarDto = CarDto.builder()
-                .model("Model S")
-                .brand("Tesla")
-                .type(Car.Type.SEDAN)
-                .inventory(5)
-                .dailyFee(BigDecimal.valueOf(99.9))
-                .build();
+        CarDto expectedCarDto = getMockCarDto();
         String jsonRequest = objectMapper.writeValueAsString(expectedCarDto);
 
         //When
         MvcResult result = mockMvc.perform(
-                post("/cars")
-                        .content(jsonRequest)
-                        .contentType(MediaType.APPLICATION_JSON)
-        )
+                        post("/cars")
+                                .content(jsonRequest)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
                 .andExpect(status().isCreated())
                 .andReturn();
 
@@ -90,19 +82,13 @@ public class CarControllerTest {
     void getCar_ValidId_ShouldReturnValidCarDto() throws Exception {
         //Given
         Long id = 1L;
-        CarDto expectedCarDto = CarDto.builder()
-                .model("Model S")
-                .brand("Tesla")
-                .type(Car.Type.SEDAN)
-                .inventory(5)
-                .dailyFee(BigDecimal.valueOf(99.99))
-                .build();
+        CarDto expectedCarDto = getMockCarDto();
 
         // When
         MvcResult result = mockMvc.perform(
-                get("/cars/{id}", id)
-                        .contentType(MediaType.APPLICATION_JSON)
-        )
+                        get("/cars/{id}", id)
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -175,6 +161,15 @@ public class CarControllerTest {
                 .andReturn();
     }
 
+    private CarDto getMockCarDto() {
+        return new CarDto()
+                .setModel("Model S")
+                .setBrand("Tesla")
+                .setType(Car.Type.SEDAN)
+                .setInventory(5)
+                .setDailyFee(BigDecimal.valueOf(99.99));
+    }
+
     private List<CarDto> getMockListCarsDto() {
         CarDto carDto1 = new CarDto("Model S", "Tesla", Car.Type.SEDAN, 5,
                 BigDecimal.valueOf(99.99));
@@ -192,10 +187,5 @@ public class CarControllerTest {
         mockListCarsDto.add(carDto4);
 
         return mockListCarsDto;
-    }
-    
-    private CarDto getMockCarDto() {
-        return new CarDto("Model S", "Tesla", Car.Type.SEDAN, 3,
-                BigDecimal.valueOf(120.50).setScale(2, RoundingMode.UNNECESSARY));
     }
 }

@@ -21,12 +21,13 @@ public class PriceCalculatorServiceImpl implements PriceCalculatorService {
                 .orElseThrow(() -> new EntityNotFoundException("Can't find rental with id: "
                         + paymentRequestDto.getRentalId()));
         BigDecimal dailyFee = rental.getCar().getDailyFee();
-        if (rental.getReturnDate().getDayOfYear() - rental.getRentalDate().getDayOfYear() == 0) {
+        if (rental.getActualReturnDate().getDayOfYear()
+                - rental.getRentalDate().getDayOfYear() == 0) {
             return dailyFee;
         }
         BigDecimal total = BigDecimal.valueOf(
-                        rental.getReturnDate().getDayOfYear()
-                                - rental.getRentalDate().getDayOfYear())
+                        rental.getActualReturnDate().getDayOfYear()
+                                - rental.getRentalDate().getDayOfYear() + 1)
                 .multiply(dailyFee);
 
         return total;

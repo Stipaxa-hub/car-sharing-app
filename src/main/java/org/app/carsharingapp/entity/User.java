@@ -13,13 +13,11 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import java.util.Collection;
 import java.util.Set;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.SoftDelete;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,9 +27,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Getter
 @Setter
 @SoftDelete
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@Accessors(chain = true)
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

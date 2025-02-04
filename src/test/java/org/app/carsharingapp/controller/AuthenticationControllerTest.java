@@ -88,12 +88,10 @@ public class AuthenticationControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        System.out.println("Response" + result.getResponse().getContentAsString());
-
         UserLoginResponseDto actualResponse = objectMapper.readValue(
                 result.getResponse().getContentAsString(), UserLoginResponseDto.class
         );
-        System.out.println(actualResponse.token());
+
         assertNotNull(actualResponse);
     }
 
