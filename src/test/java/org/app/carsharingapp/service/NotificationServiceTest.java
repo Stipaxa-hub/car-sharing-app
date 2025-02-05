@@ -33,7 +33,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
 class NotificationServiceTest {
-    private static final LocalDateTime FIXED_LOCAL_DATE_TIME = LocalDateTime.of(2025, Month.JANUARY, 1, 0, 0, 0);
+    private static final LocalDateTime FIXED_LOCAL_DATE_TIME =
+            LocalDateTime.of(2025, Month.JANUARY, 1, 0, 0, 0);
     private static final Long ID = 1L;
     @Mock
     private CarRepository carRepository;
@@ -76,11 +77,13 @@ class NotificationServiceTest {
 
             doNothing().when(notificationBot).sendMessage(any(User.class), anyString());
 
-            String expectedTextMessage = "2025-01-01 00:00:00 new rental was created with car: Tesla " +
-                    "Model 3\nDaily fee: 100\nRental Date: 2025-01-01" +
-                    "\nExpected return date: 2025-01-01";
+            String expectedTextMessage = "2025-01-01 00:00:00 new rental was created "
+                    + "with car: Tesla "
+                    + "Model 3\nDaily fee: 100\nRental Date: 2025-01-01"
+                    + "\nExpected return date: 2025-01-01";
 
-            assertEquals(expectedTextMessage, notificationService.rentalCreatedMessage(rentalResponseDto));
+            assertEquals(expectedTextMessage,
+                    notificationService.rentalCreatedMessage(rentalResponseDto));
         }
     }
 
@@ -91,10 +94,12 @@ class NotificationServiceTest {
             mockedLocalDateTime.when(LocalDateTime::now).thenReturn(FIXED_LOCAL_DATE_TIME);
             when(carRepository.findById(1L)).thenReturn(Optional.empty());
 
-            Exception exceptionCar = assertThrows(EntityNotFoundException.class, () -> notificationService.rentalCreatedMessage(rentalResponseDto));
+            Exception exceptionCar = assertThrows(EntityNotFoundException.class,
+                    () -> notificationService.rentalCreatedMessage(rentalResponseDto));
 
             assertEquals("Can't find car with id: 1", exceptionCar.getMessage());
-            assertThrows(EntityNotFoundException.class, () -> notificationService.rentalCreatedMessage(rentalResponseDto));
+            assertThrows(EntityNotFoundException.class,
+                    () -> notificationService.rentalCreatedMessage(rentalResponseDto));
         }
     }
 
@@ -106,9 +111,11 @@ class NotificationServiceTest {
             when(carRepository.findById(ID)).thenReturn(Optional.of(car));
             when(userRepository.findById(ID)).thenReturn(Optional.empty());
 
-            Exception exceptionUser = assertThrows(EntityNotFoundException.class, () -> notificationService.rentalCreatedMessage(rentalResponseDto));
+            Exception exceptionUser = assertThrows(EntityNotFoundException.class,
+                    () -> notificationService.rentalCreatedMessage(rentalResponseDto));
             assertEquals("Can't find user with id: 1", exceptionUser.getMessage());
-            assertThrows(EntityNotFoundException.class, () -> notificationService.rentalCreatedMessage(rentalResponseDto));
+            assertThrows(EntityNotFoundException.class,
+                    () -> notificationService.rentalCreatedMessage(rentalResponseDto));
         }
     }
 }

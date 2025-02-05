@@ -117,7 +117,8 @@ public class NotificationServiceImpl
 
     private User getUser(RentalResponseDto rentalResponseDto) {
         return userRepository.findById(rentalResponseDto.getUserId())
-                .orElseThrow(() -> new EntityNotFoundException("Can't find user with id: " + rentalResponseDto.getUserId()));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Can't find user with id: " + rentalResponseDto.getUserId()));
     }
 
 }
