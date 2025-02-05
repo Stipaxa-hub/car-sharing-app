@@ -20,6 +20,7 @@ import org.app.carsharingapp.mapper.PaymentMapper;
 import org.app.carsharingapp.repository.PaymentRepository;
 import org.app.carsharingapp.repository.RentalRepository;
 import org.app.carsharingapp.service.impl.PaymentServiceImpl;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -43,6 +44,7 @@ class PaymentServiceTest {
     @InjectMocks
     private PaymentServiceImpl paymentService;
 
+    @DisplayName("Payments by customer id")
     @Test
     void getPaymentsByCustomerId_ShouldReturnPaymentList() {
         Long customerId = 1L;
@@ -61,6 +63,7 @@ class PaymentServiceTest {
         verify(paymentMapper, times(1)).toDto(payment);
     }
 
+    @DisplayName("Succeed payment")
     @Test
     void succeed_ValidSessionId_ShouldUpdatePaymentAndRentalStatus() {
         Payment payment = new Payment();
@@ -83,6 +86,7 @@ class PaymentServiceTest {
         verify(notificationService, times(1)).paymentMessage(payment);
     }
 
+    @DisplayName("Invalid session id")
     @Test
     void succeed_InvalidSessionId_ShouldThrowException() {
         String sessionId = "invalidSessionId";
@@ -94,6 +98,7 @@ class PaymentServiceTest {
         verify(paymentRepository, times(1)).findBySessionId(sessionId);
     }
 
+    @DisplayName("Cancel payment")
     @Test
     void cancel_ValidSessionId_ShouldUpdatePaymentAndRentalStatus() {
         Payment payment = new Payment();
@@ -116,6 +121,7 @@ class PaymentServiceTest {
         verify(notificationService, times(1)).paymentMessage(payment);
     }
 
+    @DisplayName("Cancel payment invalid")
     @Test
     void cancel_InvalidSessionId_ShouldThrowException() {
         String sessionId = "invalidSessionId";
@@ -127,6 +133,7 @@ class PaymentServiceTest {
         verify(paymentRepository, times(1)).findBySessionId(sessionId);
     }
 
+    @DisplayName("Save payment")
     @Test
     void save_ValidData_ShouldSavePayment() {
         Payment payment = new Payment();

@@ -22,6 +22,7 @@ import org.app.carsharingapp.dto.payment.PaymentCreateResponseDto;
 import org.app.carsharingapp.dto.payment.PaymentRequestDto;
 import org.app.carsharingapp.exception.PaymentException;
 import org.app.carsharingapp.service.impl.StripePaymentServiceImpl;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -41,6 +42,7 @@ class StripePaymentServiceTest {
     @Mock
     private PriceCalculatorService priceCalculatorService;
 
+    @DisplayName("Valid payment session")
     @Test
     void createPaymentSession_ShouldReturnValidSession_WhenRequestIsValid() throws StripeException {
         BigDecimal mockPrice = BigDecimal.valueOf(100.00);
@@ -69,6 +71,7 @@ class StripePaymentServiceTest {
         }
     }
 
+    @DisplayName("Payment exception when price creation fails")
     @Test
     void createPaymentSession_ShouldThrowPaymentException_WhenPriceCreationFails() {
         when(priceCalculatorService.getPrice(any(PaymentRequestDto.class)))
@@ -88,6 +91,7 @@ class StripePaymentServiceTest {
         }
     }
 
+    @DisplayName("Payment exception when session creation fails")
     @Test
     void createPaymentSession_ShouldThrowPaymentException_WhenSessionCreationFails() {
         BigDecimal mockPrice = BigDecimal.valueOf(100.00);

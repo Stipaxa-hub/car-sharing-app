@@ -17,6 +17,7 @@ import org.app.carsharingapp.repository.RoleRepository;
 import org.app.carsharingapp.repository.UserRepository;
 import org.app.carsharingapp.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -75,6 +76,7 @@ class UserServiceTest {
                 .setRoleName(Role.RoleName.MANAGER);
     }
 
+    @DisplayName("Email was already registered")
     @Test
     void register_EmailWasRegistered_ShouldThrowException() {
         when(userRepository.existsByEmail(registrationRequestDto.getEmail())).thenReturn(true);
@@ -83,6 +85,7 @@ class UserServiceTest {
                 () -> userService.register(registrationRequestDto));
     }
 
+    @DisplayName("Valid registration")
     @Test
     void register_ValidRequestDto_ShouldAddNewUser() throws RegistrationException {
         when(userRepository.existsByEmail(registrationRequestDto.getEmail())).thenReturn(false);
@@ -98,6 +101,7 @@ class UserServiceTest {
         assertEquals("11password11", user.getPassword());
     }
 
+    @DisplayName("Valid role update")
     @Test
     void updateUserRole_ValidIdAndRequest_ShouldUpdateUserRole() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
@@ -109,6 +113,7 @@ class UserServiceTest {
         assertEquals(userResponseDto, userService.updateUserRole(1L, updateRoleRequestDto));
     }
 
+    @DisplayName("Exception invalid Role")
     @Test
     void updateUserRole_InvalidRole_ShouldThrowException() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
@@ -120,6 +125,7 @@ class UserServiceTest {
         assertEquals("Can't find the role: MANAGER", exception.getMessage());
     }
 
+    @DisplayName("Incorrect profile info")
     @Test
     void getProfileInfo_InvalidId_ShouldThrowException() {
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
@@ -127,6 +133,7 @@ class UserServiceTest {
         assertThrows(EntityNotFoundException.class, () -> userService.getProfileInfo(1L));
     }
 
+    @DisplayName("Correct profile info")
     @Test
     void getProfileInfo_CorrectId_ShouldReturnCorrectUserResponseDto() {
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));

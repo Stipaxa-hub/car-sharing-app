@@ -29,12 +29,12 @@ public class NotificationServiceImpl
     private final RentalRepository rentalRepository;
 
     @Override
-    public Boolean rentalCreatedMessage(RentalResponseDto rentalResponseDto) {
+    public String rentalCreatedMessage(RentalResponseDto rentalResponseDto) {
         LocalDateTime localDateTimeNow = LocalDateTime.now();
         String formattedDateTime = localDateTimeNow.format(DATE_TIME_FORMATTER);
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(formattedDateTime)
-                .append(" new rental was created with car : ")
+                .append(" new rental was created with car: ")
                 .append(getCar(rentalResponseDto).getBrand())
                 .append(" ")
                 .append(getCar(rentalResponseDto).getModel())
@@ -48,11 +48,12 @@ public class NotificationServiceImpl
         User user = getUser(rentalResponseDto);
 
         bot.sendMessage(user, stringBuilder.toString());
-        return true;
+
+        return stringBuilder.toString();
     }
 
     @Override
-    public Boolean rentalReturnedMessage(RentalResponseDto rentalResponseDto) {
+    public String rentalReturnedMessage(RentalResponseDto rentalResponseDto) {
         LocalDateTime localDateTimeNow = LocalDateTime.now();
         String formattedDateTime = localDateTimeNow.format(DATE_TIME_FORMATTER);
 
@@ -72,11 +73,12 @@ public class NotificationServiceImpl
         User user = getUser(rentalResponseDto);
 
         bot.sendMessage(user, stringBuilder.toString());
-        return true;
+
+        return stringBuilder.toString();
     }
 
     @Override
-    public Boolean rentalExpiredMessage(User user,String text) {
+    public String rentalExpiredMessage(User user,String text) {
         LocalDateTime localDateTimeNow = LocalDateTime.now();
         String formattedDateTime = localDateTimeNow.format(DATE_TIME_FORMATTER);
         StringBuilder stringBuilder = new StringBuilder();
@@ -84,11 +86,12 @@ public class NotificationServiceImpl
                 .append(" \n")
                 .append(text);
         bot.sendMessage(user, stringBuilder.toString());
-        return true;
+
+        return stringBuilder.toString();
     }
 
     @Override
-    public Boolean paymentMessage(Payment payment) {
+    public String paymentMessage(Payment payment) {
         LocalDateTime localDateTimeNow = LocalDateTime.now();
         String formattedDateTime = localDateTimeNow.format(DATE_TIME_FORMATTER);
         StringBuilder stringBuilder = new StringBuilder();
@@ -102,7 +105,8 @@ public class NotificationServiceImpl
                 .append(" total ")
                 .append(payment.getTotal());
         bot.sendMessage(payment.getRental().getUser(), stringBuilder.toString());
-        return true;
+
+        return stringBuilder.toString();
     }
 
     private Car getCar(RentalResponseDto rentalResponseDto) {
@@ -113,7 +117,7 @@ public class NotificationServiceImpl
 
     private User getUser(RentalResponseDto rentalResponseDto) {
         return userRepository.findById(rentalResponseDto.getUserId())
-                .orElseThrow(() -> new EntityNotFoundException("Can't find user by ID"));
+                .orElseThrow(() -> new EntityNotFoundException("Can't find user with id: " + rentalResponseDto.getUserId()));
     }
 
 }

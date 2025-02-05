@@ -8,9 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.math.BigDecimal;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.SoftDelete;
@@ -19,8 +17,6 @@ import org.hibernate.annotations.SoftDelete;
 @Getter
 @Setter
 @Accessors(chain = true)
-@NoArgsConstructor
-@AllArgsConstructor
 @SoftDelete
 public class Car {
     @Id
