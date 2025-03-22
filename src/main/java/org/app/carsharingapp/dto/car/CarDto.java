@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.app.carsharingapp.entity.Car;
+import org.app.carsharingapp.validator.CarAvailability;
 
 @Accessors(chain = true)
 @Getter
@@ -19,6 +20,7 @@ public class CarDto {
     private String model;
     private String brand;
     private Car.Type type;
+    @CarAvailability
     private Integer inventory;
     private BigDecimal dailyFee;
 }

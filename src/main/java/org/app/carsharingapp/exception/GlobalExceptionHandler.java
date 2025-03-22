@@ -44,13 +44,18 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return buildErrorResponse(HttpStatus.NOT_FOUND, exception);
     }
 
-    @ExceptionHandler({RegistrationException.class,
+    @ExceptionHandler({
             RentalException.class,
             TelegramMessageException.class,
             CarCreateException.class,
             PaymentException.class})
     public ResponseEntity<Object> handleBadRequestExceptions(Exception exception) {
         return buildErrorResponse(HttpStatus.BAD_REQUEST, exception);
+    }
+
+    @ExceptionHandler(RegistrationException.class)
+    public ResponseEntity<Object> handleConflictException(Exception exception) {
+        return buildErrorResponse(HttpStatus.CONFLICT, exception);
     }
 
     private String getErrorMessage(ObjectError e) {

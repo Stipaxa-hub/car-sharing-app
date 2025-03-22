@@ -1,6 +1,7 @@
 package org.app.carsharingapp.controller;
 
 import jakarta.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.app.carsharingapp.dto.payment.PaymentCreateResponseDto;
@@ -9,8 +10,8 @@ import org.app.carsharingapp.dto.payment.PaymentResponseDto;
 import org.app.carsharingapp.entity.User;
 import org.app.carsharingapp.service.PaymentService;
 import org.app.carsharingapp.service.StripePaymentService;
+import org.app.carsharingapp.service.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,13 +23,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/payments")
 @RequiredArgsConstructor
 public class PaymentController {
+    private final UserService userService;
     private final StripePaymentService stripePaymentService;
     private final PaymentService paymentService;
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_MANAGER')")
-    public List<PaymentResponseDto> getPaymentsByUserId(Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
+    public List<PaymentResponseDto> getPaymentsByUserId(Principal principal) {
+        String username = principal.getName();
+        User user = userService.findUserByEmail(username);
         return paymentService.getPaymentsByCustomerId(user.getId());
     }
 

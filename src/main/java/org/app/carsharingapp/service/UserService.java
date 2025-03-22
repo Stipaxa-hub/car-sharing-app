@@ -3,6 +3,7 @@ package org.app.carsharingapp.service;
 import org.app.carsharingapp.dto.user.UserRegistrationRequestDto;
 import org.app.carsharingapp.dto.user.UserResponseDto;
 import org.app.carsharingapp.dto.user.UserUpdateRoleRequestDto;
+import org.app.carsharingapp.entity.User;
 import org.app.carsharingapp.exception.RegistrationException;
 
 public interface UserService {
@@ -13,4 +14,6 @@ public interface UserService {
     UserResponseDto getProfileInfo(Long userId);
 
     UserResponseDto updateProfileInfo(Long userId, UserRegistrationRequestDto requestDto);
+
+    User findUserByEmail(String email);
 }
