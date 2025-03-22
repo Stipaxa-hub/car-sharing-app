@@ -66,7 +66,7 @@ Track and manage all active and past rentals with ease. The system provides deta
 ## Technology Stack
 
 <details>
-  <summary><b>Spring Boot</b></summary>
+  <summary><b>Spring Boot v3.2.2</b></summary>
 
 *A framework for building and deploying Java applications with an embedded server, simplifying configuration and accelerating development.*
 </details>
@@ -91,12 +91,12 @@ Track and manage all active and past rentals with ease. The system provides deta
 *Platform for automating deployment and managing containerized applications, simplifying work with isolated environments.*
 </details>
 <details>
-  <summary><b>JUnit</b></summary>
+  <summary><b>JUnit 5</b></summary>
 
 *A popular testing framework for Java that provides annotations to identify test methods, assertions for testing expected results, and test runners for executing test cases.*
 </details>
 <details>
-  <summary><b>Liquibase</b></summary>
+  <summary><b>Liquibase v4.22.0</b></summary>
 
 *Tool for version control of database schemas, allowing controlled schema changes.*
 </details>
@@ -106,7 +106,7 @@ Track and manage all active and past rentals with ease. The system provides deta
 *Library that automates code generation to reduce boilerplate cLombok: ode, such as getters, setters, and equals/hashCode.Lombok: ode, such as getters, setters, and equals/hashCode.*
 </details>
 <details>
-  <summary><b>Mapstruct </b></summary>
+  <summary><b>Mapstruct v1.5.5</b></summary>
 
 *Library for automatic code generation of mappings between Java objects, simplifying conversion between different models.*
 </details>
@@ -116,7 +116,7 @@ Track and manage all active and past rentals with ease. The system provides deta
 *Tool for managing project dependencies, compilation, building, and publishing of Java programs.*
 </details>
 <details>
-  <summary><b>Mockito</b></summary>
+  <summary><b>Mockito v5.2.0</b></summary>
 
 *A mocking framework for Java that allows the creation of mock objects in automated tests, facilitating the isolation of code units for more effective testing.*
 </details>
@@ -126,17 +126,17 @@ Track and manage all active and past rentals with ease. The system provides deta
 *Relational database that uses the SQL language for managing and interacting with data.*
 </details>
 <details>
-  <summary><b>Stripe API</b></summary>
+  <summary><b>Stripe API v24.22.0</b></summary>
 
 *A set of tools and APIs for building online payment solutions, allowing developers to integrate payment processing into their applications.*
 </details>
 <details>
-  <summary><b>Swagger</b></summary>
+  <summary><b>Swagger v2.2.0</b></summary>
 
 *Tool for automatically generating API documentation, allowing developers to interactively engage with and understand the structure of the API.*
 </details>
 <details>
-  <summary><b>Telegram API</b></summary>
+  <summary><b>Telegram API v6.7.0</b></summary>
 
 *A set of APIs provided by Telegram Messenger for building chatbots, integrations, and other applications on the Telegram platform.*
 </details>
